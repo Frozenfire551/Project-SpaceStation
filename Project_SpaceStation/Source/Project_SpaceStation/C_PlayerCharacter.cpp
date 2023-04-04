@@ -4,6 +4,10 @@
 #include "C_PlayerCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
+#include "Components/InputComponent.h"
+
 // Sets default values
 AC_PlayerCharacter::AC_PlayerCharacter()
 {
@@ -14,7 +18,7 @@ AC_PlayerCharacter::AC_PlayerCharacter()
 	SpringArm-> SetupAttachment(RootComponent);
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
-	Camera-> SetupAttachment(RootComponent);
+	Camera-> SetupAttachment(SpringArm);
 }
 
 // Called when the game starts or when spawned
@@ -22,6 +26,35 @@ void AC_PlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+		if (InputSubsystem)
+		{
+			InputSubsystem->AddMappingContext(PlayerControls, 0);
+		}
+	}
+}
+
+
+void AC_PlayerCharacter::MoveAround(const FInputActionValue& Value)
+{
+	const FVector2D MovementAixs = Value.Get<FVector2D>();
+	if (GetController())
+	{
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
+
+		//UE_LOG(LogTemp, Warning, TEXT("move Forward Triggered"));
+
+		//strifing but with issues on pitch rotation
+		const FVector ForwardDir = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(ForwardDir, MovementAixs.Y);
+		const FVector RightDir = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		AddMovementInput(RightDir, MovementAixs.X);
+
+	}
+
 }
 
 // Called every frame
@@ -36,5 +69,10 @@ void AC_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	if (UEnhancedInputComponent* EnhancedInput = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInput->BindAction(Move, ETriggerEvent::Triggered, this, &AC_PlayerCharacter::MoveAround);
+		//EnhancedInputComp->BindAction(Look, ETriggerEvent::Triggered, this, &APlayerV1::LookAround);
+	}
 }
 

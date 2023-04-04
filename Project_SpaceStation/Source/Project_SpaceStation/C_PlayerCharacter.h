@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InputActionValue.h"
 #include "C_PlayerCharacter.generated.h"
 
 class UInputMappingContext;
+class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
 UCLASS()
@@ -27,8 +29,35 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
 		TObjectPtr <UCameraComponent> Camera;
 
+
+	//Input
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	TObjectPtr <UInputMappingContext> PlayerControls;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Move;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Interact;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill1;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill2;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill3;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill4;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill5;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill6;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill7;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill8;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+		TObjectPtr <UInputAction> Skill9;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -36,4 +65,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void MoveAround(const FInputActionValue& Value);
 };
