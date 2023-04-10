@@ -7,6 +7,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Components/InputComponent.h"
+#include "C_AbilitySystemComponent_Player.h"
+#include "C_GameplayAbility.h"
+#include "C_AttributeSet.h"
 
 // Sets default values
 AC_PlayerCharacter::AC_PlayerCharacter()
@@ -19,6 +22,10 @@ AC_PlayerCharacter::AC_PlayerCharacter()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	Camera-> SetupAttachment(SpringArm);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UC_AbilitySystemComponent_Player>(TEXT("AbilitySystem"));
+	Attribute = CreateDefaultSubobject<UC_AttributeSet>(TEXT("AttributeSetBase"));
+
 }
 
 // Called when the game starts or when spawned
@@ -26,6 +33,9 @@ void AC_PlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	AbilitySystemComponent->InitializeAbilitiesAndEffects();
+
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
 		UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
@@ -56,6 +66,8 @@ void AC_PlayerCharacter::MoveAround(const FInputActionValue& Value)
 	}
 
 }
+
+
 
 // Called every frame
 void AC_PlayerCharacter::Tick(float DeltaTime)

@@ -1,5 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "B_GameplayAbility.h"
+#include "C_GameplayAbility.h"
 
+UC_GameplayAbility::UC_GameplayAbility() {
+
+}

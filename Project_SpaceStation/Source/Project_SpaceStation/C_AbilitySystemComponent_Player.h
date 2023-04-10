@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "CoreMinimal.h"
 #include "C_AbilitySystemComponent_Player.generated.h"
 
 /**
@@ -14,4 +14,14 @@ class PROJECT_SPACESTATION_API UC_AbilitySystemComponent_Player : public UAbilit
 {
 	GENERATED_BODY()
 	
+public:
+	/*UPROPERTY(EditDefaultOnly, BlueprintReadOnly, Category = "Abilities")
+		TArray<TSubclassOf<>> DefaultAbilities;
+
+	UPROPERTY(EditDefaultOnly, BlueprintReadOnly, Category = "Abilities")
+		TArray<TSubclassOf<>> DefaultEffects;*/
+
+	UFUNCTION()
+		void InitializeAbilitiesAndEffects();
+
 };
