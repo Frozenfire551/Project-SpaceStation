@@ -36,19 +36,23 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
 		TObjectPtr <UCameraComponent> Camera;
 
-	//GAS
+	//GAS Defaults
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS")
+		TSubclassOf <UGameplayEffect> DefaultAttributeEffect;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS")
+		TArray<TSubclassOf <class UC_GameplayAbility>> DefaultAbilities;
+
+	//gas
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GAS")
 		TObjectPtr <UC_AbilitySystemComponent_Player> AbilitySystemComponent;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GAS")
 		TObjectPtr <UC_AttributeSet> Attribute;
 	 
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
-		TArray<TSubclassOf<UGameplayEffect>> PassiveGamePlayEffects;*/
+	
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
-		TArray<TSubclassOf<UC_GameplayAbility>> GamePlayAvilities;
-	//UC_AttributeSet
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+	//	TArray<TSubclassOf<UC_GameplayAbility>> GamePlayAvilities;
+	////UC_AttributeSet
 
 	//Input
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
@@ -91,4 +95,11 @@ public:
 	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override {
 		return AbilitySystemComponent.Get();
 	}
+
+	virtual void InitializeAttributes();
+	virtual void GiveAbilities();
+
+	
 };
+
+ 

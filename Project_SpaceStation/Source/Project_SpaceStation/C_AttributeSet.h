@@ -24,14 +24,23 @@ class PROJECT_SPACESTATION_API UC_AttributeSet : public UAttributeSet
 	
 
 	public:
-		UC_AttributeSet();
-
-		virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifeTimeProps) const override;
 
 		UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_Health)
 			FGameplayAttributeData Health;
-		ATTRIBUTE_ACCESSORS(UC_AttributeSet, Health);
+		ATTRIBUTE_ACCESSORS(UC_AttributeSet, Health)
 
+		UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_MaxHealth)
+			FGameplayAttributeData MaxHealth;
+		ATTRIBUTE_ACCESSORS(UC_AttributeSet, MaxHealth)
+
+		
 		UFUNCTION()
-			virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
+		virtual void OnRep_Health(const FGameplayAttributeData& OldHealthMax);
+		UFUNCTION()
+		virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldHealthMax);
+	
+		virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+		//get hp and max hp
+		
+	
 };
